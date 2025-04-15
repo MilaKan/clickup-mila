@@ -14,36 +14,36 @@ def task_api():
         pytest.fail(f"API connection failed: {response.status_code}")
     return api
 
-
 @pytest.fixture
-def get_team(task_api):
+def get_team_fixture(task_api):
     response = task_api.get_team()
     return response.json()['teams'][0]
 
 
 @pytest.fixture
-def get_space(task_api, get_team):
-    response = task_api.get_space(get_team['id'])
+def get_space_fixture(task_api, get_team_fixture):
+    response = task_api.get_space(get_team_fixture['id'])
     return response.json()['spaces'][0]
 
 
 @pytest.fixture
-def get_folder(task_api, get_space):
-    response = task_api.get_folder(get_space['id'])
+def get_folder_fixture(task_api, get_space_fixture):
+    response = task_api.get_folder(get_space_fixture['id'])
     return response.json()['folders'][0]
 
 
 @pytest.fixture
-def get_list(task_api, get_folder):
-    response = task_api.get_list(get_folder['id'])
+def get_list_fixture(task_api, get_folder_fixture):
+    response = task_api.get_list(get_folder_fixture['id'])
     return response.json()['lists'][0]
 
 
 @pytest.fixture
-def create_task(task_api, get_list):
+def create_task_fixture(task_api, get_list_fixture):
     task_data = {"name": "Test Task", "description": "Test"}
-    response = task_api.create_task(get_list['id'], task_data)
+    response = task_api.create_task(get_list_fixture['id'], task_data)
     task = response.json()
-    yield task  # Возвращаем задачу для теста
-    # После теста удаляем задачу
+    yield task
+
     task_api.delete_task(task['id'])
+

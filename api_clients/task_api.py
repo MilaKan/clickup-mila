@@ -9,7 +9,7 @@ class TaskAPI:
         })
         self.base_url = base_url
 
-    task_udate = {
+    task_update = {
         "name": "API test update",
         "description": "https://www.markdownguide.org/cheat-sheet/"
     }
@@ -27,18 +27,16 @@ class TaskAPI:
         return self.session.get(f"{self.base_url}/folder/{folder_id}/list")
 
     def create_task(self, list_id, task_data):
-        """Создание задачи с обязательными параметрами"""
         return self.session.post(
             f"{self.base_url}/list/{list_id}/task",
             json=task_data
         )
 
-    def get_task(self,list_id,task_id):
-        return self.session.get(f"{self.base_url}/list/{list_id}/task{task_id}")
+    def get_task(self,task_id):
+        return self.session.get(f"{self.base_url}/task/{task_id}")
 
     def update_task(self, task_id, task_update):
         return self.session.put(f"{self.base_url}/task/{task_id}",json=task_update)
 
     def delete_task(self, task_id):
         return self.session.delete(f"{self.base_url}/task/{task_id}")
-
