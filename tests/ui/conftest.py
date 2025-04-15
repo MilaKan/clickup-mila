@@ -1,23 +1,31 @@
 import pytest
+import allure
 from playwright.sync_api import sync_playwright
-
 from pages.login_page import LoginPage
 
 
 @pytest.fixture(scope = 'session')
 def browser():
-    playwright = sync_playwright().start()
-    browser = playwright.chromium.launch(headless = False, slow_mo=1000)
+    with allure.step("Инициализация Playwright"):
+        playwright = sync_playwright().start()
+    with allure.step("Запуск браузера Chromium"):
+        browser = playwright.chromium.launch(headless = False, slow_mo=1000)
     yield browser
-    browser.close()
-    playwright.stop()
+    with allure.step("Закрытие браузера"):
+        browser.close()
+    with allure.step("Остановка Playwright"):
+        playwright.stop()
 
 @pytest.fixture(scope='session')
 def logged_in_page(browser):
-    context = browser.new_context()
-    page = context.new_page()
-    login_page = LoginPage(page)
-    login_page.login('milanakan2001@gmail.com', 'Milakan2307')
+    with allure.step("Создание нового контекста браузера"):
+        context = browser.new_context()
+    with allure.step("Создание новой страницы"):
+        page = context.new_page()
+    with allure.step("Авторизация с учетными данными"):
+        login_page = LoginPage(page)
+        login_page.login('milanakan2001@gmail.com', 'Milakan2307')
 
     yield page
-    context.close()
+    with allure.step("Закрытие контекста браузера"):
+        context.close()
