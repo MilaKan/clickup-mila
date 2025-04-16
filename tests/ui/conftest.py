@@ -2,6 +2,11 @@ import pytest
 import allure
 from playwright.sync_api import sync_playwright
 from pages.login_page import LoginPage
+import os
+from dotenv import load_dotenv
+load_dotenv()
+CLICKUP_EMAIL = os.getenv("CLICKUP_EMAIL")
+CLICKUP_PASSWORD = os.getenv("CLICKUP_PASSWORD")
 
 
 @pytest.fixture(scope = 'session')
@@ -24,7 +29,7 @@ def logged_in_page(browser):
         page = context.new_page()
     with allure.step("Авторизация с учетными данными"):
         login_page = LoginPage(page)
-        login_page.login('milanakan2001@gmail.com', 'Milakan2307')
+        login_page.login(CLICKUP_EMAIL,CLICKUP_PASSWORD)
 
     yield page
     with allure.step("Закрытие контекста браузера"):

@@ -8,6 +8,9 @@ class BoardPage(BasePage):
     COMPLETE_SELECTOR = "[data-test='board-header']"
     DELETE_TASK_SELECTOR = ".nav-menu-item__name >> text='Delete'"
     TASK_NAME = '.open-task-clickable-area.ng-star-inserted'
+    CREATE_BUTTON_SELECTOR = '[data-test="board-group-header__create-task-button__to do"]'
+    TASK_NAME_INPUT = '[data-test="quick-create-task-panel__panel-board__input"]'
+    SAVE_BUTTON_SELECTOR = '[data-test="quick-create-task-panel__panel-board__enter-button"]'
 
     def __init__(self, page):
         super().__init__(page)
@@ -46,3 +49,12 @@ class BoardPage(BasePage):
         with allure.step(f"Проверка, что задача {task_name} исчезла"):
             task_selector = f'[data-test="board-task__name-link__{task_name}"]'
             self.assert_element_is_not_visible(task_selector)
+
+    @allure.step("Создание задачи через UI с именем: {task_name}")
+    def create_task_ui(self,task_name):
+        with allure.step("Клик по кнопке создания задачи"):
+            self.wait_for_selector_and_click(self.CREATE_BUTTON_SELECTOR)
+        with allure.step(f"Ввод имени задачи: {task_name}"):
+            self.wait_for_selector_and_type(self.TASK_NAME_INPUT,task_name,100)
+        with allure.step("Клик по кнопке сохранения задачи"):
+            self.wait_for_selector_and_click(self.SAVE_BUTTON_SELECTOR)

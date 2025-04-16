@@ -1,4 +1,4 @@
-# tests/conftest.py
+
 import pytest
 from api_clients.task_api import TaskAPI
 from utils.helpers import CLICKUP_API_KEY, CLICKUP_API
@@ -8,7 +8,6 @@ from utils.helpers import CLICKUP_API_KEY, CLICKUP_API
 def task_api():
     api = TaskAPI(CLICKUP_API, CLICKUP_API_KEY)
 
-    # Проверка соединения
     response = api.get_team()
     if response.status_code != 200:
         pytest.fail(f"API connection failed: {response.status_code}")
