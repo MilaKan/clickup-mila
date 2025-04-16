@@ -1,25 +1,23 @@
+
 import pytest
 import allure
 from playwright.sync_api import sync_playwright
 from pages.login_page import LoginPage
-import os
-from dotenv import load_dotenv
-load_dotenv()
-CLICKUP_EMAIL = os.getenv("CLICKUP_EMAIL")
-CLICKUP_PASSWORD = os.getenv("CLICKUP_PASSWORD")
+from utils.helpers import CLICKUP_EMAIL, CLICKUP_PASSWORD
 
 
-@pytest.fixture(scope = 'session')
+@pytest.fixture(scope='session')
 def browser():
     with allure.step("Инициализация Playwright"):
         playwright = sync_playwright().start()
     with allure.step("Запуск браузера Chromium"):
-        browser = playwright.chromium.launch(headless = False, slow_mo=1000)
+        browser = playwright.chromium.launch(headless=False, slow_mo=1000)
     yield browser
     with allure.step("Закрытие браузера"):
         browser.close()
     with allure.step("Остановка Playwright"):
         playwright.stop()
+
 
 @pytest.fixture(scope='session')
 def logged_in_page(browser):
@@ -29,7 +27,7 @@ def logged_in_page(browser):
         page = context.new_page()
     with allure.step("Авторизация с учетными данными"):
         login_page = LoginPage(page)
-        login_page.login(CLICKUP_EMAIL,CLICKUP_PASSWORD)
+        login_page.login(CLICKUP_EMAIL, CLICKUP_PASSWORD)
 
     yield page
     with allure.step("Закрытие контекста браузера"):

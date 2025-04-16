@@ -1,5 +1,7 @@
+
 import allure
 from pages.base_page import BasePage
+
 
 @allure.feature("Board Page")
 class BoardPage(BasePage):
@@ -35,7 +37,7 @@ class BoardPage(BasePage):
             self.page.wait_for_selector(selector, state="visible", timeout=timeout)
 
     @allure.step("Удаление задачи {task_name}")
-    def delete_task(self,task_name):
+    def delete_task(self, task_name):
         with allure.step(f"Наведение на задачу {task_name}"):
             self.page.hover(self.TASK_NAME)
         with allure.step(f"Клик по кнопке меню для задачи {task_name}"):
@@ -51,10 +53,10 @@ class BoardPage(BasePage):
             self.assert_element_is_not_visible(task_selector)
 
     @allure.step("Создание задачи через UI с именем: {task_name}")
-    def create_task_ui(self,task_name):
+    def create_task_ui(self, task_name):
         with allure.step("Клик по кнопке создания задачи"):
             self.wait_for_selector_and_click(self.CREATE_BUTTON_SELECTOR)
         with allure.step(f"Ввод имени задачи: {task_name}"):
-            self.wait_for_selector_and_type(self.TASK_NAME_INPUT,task_name,100)
+            self.wait_for_selector_and_type(self.TASK_NAME_INPUT, task_name, 100)
         with allure.step("Клик по кнопке сохранения задачи"):
             self.wait_for_selector_and_click(self.SAVE_BUTTON_SELECTOR)

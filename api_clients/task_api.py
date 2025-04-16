@@ -1,5 +1,7 @@
+
 import requests
 import allure
+
 
 @allure.feature("Работа с задачами через API")
 class TaskAPI:
@@ -45,14 +47,14 @@ class TaskAPI:
             )
 
     @allure.step("Получение задачи по ID: {task_id}")
-    def get_task(self,task_id):
+    def get_task(self, task_id):
         with allure.step(f"GET /task/{task_id}"):
             return self.session.get(f"{self.base_url}/task/{task_id}")
 
     @allure.step("Обновление задачи по ID: {task_id}")
     def update_task(self, task_id, task_update):
         with allure.step(f"PUT /task/{task_id}"):
-            return self.session.put(f"{self.base_url}/task/{task_id}",json=task_update)
+            return self.session.put(f"{self.base_url}/task/{task_id}", json=task_update)
 
     @allure.step("Удаление задачи по ID: {task_id}")
     def delete_task(self, task_id):

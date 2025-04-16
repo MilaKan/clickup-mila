@@ -1,3 +1,4 @@
+
 import allure
 from pages.board_page import BoardPage
 
@@ -17,8 +18,9 @@ def test_task_delete(logged_in_page, create_task_fixture, task_api):
         response = task_api.get_task(task_id)
         assert response.status_code == 404, "Задача не была удалена"
 
+
 @allure.description("Создание задачи через UI, проверка её наличия через API и удаление через API")
-def test_create_task_ui(logged_in_page,task_api,get_list_fixture):
+def test_create_task_ui(logged_in_page, task_api, get_list_fixture):
     board_page = BoardPage(logged_in_page)
     task_name = "UI Created Task"
     with allure.step("Создание задачи через UI"):
